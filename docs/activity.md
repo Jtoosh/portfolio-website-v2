@@ -31,7 +31,9 @@ restrictions. The adapter gathers 100 candidates per request, requests additiona
 pages when fewer than three eligible unique changes remain, and stops at GitHub's
 1,000-result search limit. It validates identity, public visibility, dates, SHA,
 and destination; excludes identified automation; sorts; deduplicates globally by
-SHA; and displays up to three results. Equal dates use repository name then SHA
+SHA; and displays up to three results. Malformed records reject the response;
+well-formed private, other-author, unlinked-author, and automated records are
+excluded without invalidating it. Equal dates use repository name then SHA
 for stable ordering. An empty result remains empty.
 
 Automation rules are explicit in the adapter: bot author/committer types, names
@@ -51,7 +53,7 @@ hour is still fresh. Existing results remain readable during the request.
 A valid successful response updates the visible feed and successful retrieval
 time, and is persisted if storage permits. Storage write failure does not prevent
 an in-memory update. Network errors, HTTP/rate-limit failures, invalid JSON or
-incomplete responses, and the 15-second timeout retain the previous records and
+incomplete responses, malformed commit records, and the 15-second timeout retain the previous records and
 timestamp. There is no automatic retry loop, browser credential, runtime server,
 or scheduled build dependency. GitHub indexing can lag, so this is recent
 activity rather than a real-time guarantee. The separate maintenance command

@@ -52,19 +52,25 @@ function displayCommit(item) {
   const message = item?.commit?.message;
   const authoredAt = item?.commit?.author?.date;
   if (
-    typeof item?.author?.login !== "string" ||
-    item.author.login.toLowerCase() !== "jtoosh" ||
-    item?.repository?.private !== false ||
+    (item?.author !== null &&
+      (typeof item?.author?.login !== "string" || !item.author.login.trim())) ||
+    typeof item?.repository?.private !== "boolean" ||
     typeof repository !== "string" ||
     !/^[\w.-]+\/[\w.-]+$/.test(repository) ||
     typeof sha !== "string" ||
     !/^[a-f0-9]{40}$/i.test(sha) ||
     typeof message !== "string" ||
     !message.split(/\r?\n/)[0].trim() ||
-    automated(item) ||
     typeof authoredAt !== "string" ||
     !Number.isFinite(Date.parse(authoredAt)) ||
     item.html_url !== `https://github.com/${repository}/commit/${sha}`
+  )
+    throw new Error("GitHub returned a malformed activity commit record.");
+  if (
+    item.author === null ||
+    item.author.login.toLowerCase() !== "jtoosh" ||
+    item.repository.private ||
+    automated(item)
   )
     return null;
   return {

@@ -20,14 +20,44 @@ const commit = (
   },
   html_url: `https://github.com/${repository}/commit/${digit.repeat(40)}`,
 });
+const malformed = commit("d", "Malformed contribution");
+const malformedResponses = {
+  "invalid commit date": {
+    ...malformed,
+    commit: { ...malformed.commit, author: { date: "not a date" } },
+  },
+  "missing commit message": {
+    ...malformed,
+    commit: { author: malformed.commit.author },
+  },
+  "invalid commit SHA": { ...malformed, sha: "invalid" },
+  "invalid commit destination": {
+    ...malformed,
+    html_url: "https://example.com",
+  },
+  "invalid commit repository": {
+    ...malformed,
+    repository: { full_name: "invalid", private: false },
+  },
+  "invalid commit author": { ...malformed, author: {} },
+  "invalid repository visibility": {
+    ...malformed,
+    repository: { full_name: malformed.repository.full_name },
+  },
+};
 const response = {
-  total_count: 4,
+  total_count: 6,
   incomplete_results: false,
   items: [
     commit("a", "Community contribution\nDetails"),
     commit("a", "Community contribution"),
     commit("b", "Other person's change", "someone-else"),
     commit("c", "Automation\nGenerated-by: github-actions[bot]"),
+    { ...commit("d", "Unlinked identity"), author: null },
+    {
+      ...commit("e", "Private contribution"),
+      repository: { full_name: "another-owner/community", private: true },
+    },
   ],
 };
 const activity = (page: Page) =>
@@ -162,6 +192,7 @@ for (const failure of [
   "invalid JSON",
   "incomplete response",
   "invalid envelope",
+  ...Object.keys(malformedResponses),
 ] as const) {
   test(`a ${failure} preserves successful cached activity, its timestamp, and reading controls`, async ({
     page,
@@ -193,7 +224,15 @@ for (const failure of [
           json:
             failure === "incomplete response"
               ? { ...response, incomplete_results: true }
-              : { items: [] },
+              : failure === "invalid envelope"
+                ? { items: [] }
+                : {
+                    total_count: 1,
+                    incomplete_results: false,
+                    items: Object.entries(malformedResponses)
+                      .filter(([name]) => name === failure)
+                      .map(([, item]) => item),
+                  },
         });
       completed();
     });
