@@ -27,11 +27,11 @@ test("the initial HTML introduces James and offers the approved reading content 
       { exact: true },
     ),
   ).toBeVisible();
-  await expect(page.getByRole("heading", { level: 3 })).toHaveText([
-    "Exercise App",
-    "Note of the Day",
-    "Tweeter",
-  ]);
+  await expect(
+    page
+      .getByRole("region", { name: "Featured projects" })
+      .getByRole("heading", { level: 3 }),
+  ).toHaveText(["Exercise App", "Note of the Day", "Tweeter"]);
   await expect(page.getByText("Education", { exact: true })).toBeVisible();
   await context.close();
 });

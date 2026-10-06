@@ -295,3 +295,34 @@ h3 {
     margin-bottom: 11px;
   }
 }
+
+.activity {
+  margin-top: 2rem;
+}
+.activity h3 {
+  font-size: 1rem;
+}
+.activity-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+.activity-list li {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.activity-list a {
+  overflow-wrap: anywhere;
+}
+.activity-context {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  margin-top: 0.35rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+.activity-freshness {
+  font-size: 0.75rem;
+  color: var(--muted);
+}

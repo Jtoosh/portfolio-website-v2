@@ -1,0 +1,26 @@
+{
+  "retrievedAt": "2026-10-06T17:47:27.575468Z",
+  "commits": [
+    {
+      "sha": "50a1a8b1588c93c1192b55fad7b7c7f497a2fce7",
+      "repository": "Jtoosh/exercise-app",
+      "message": "feat: support workout category focusing",
+      "authoredAt": "2026-09-21T19:36:08.000-06:00",
+      "url": "https://github.com/Jtoosh/exercise-app/commit/50a1a8b1588c93c1192b55fad7b7c7f497a2fce7"
+    },
+    {
+      "sha": "06632fb2560e6fdc3ca0c75f20fb3e23dff7b953",
+      "repository": "Jtoosh/exercise-app",
+      "message": "docs: update design.md",
+      "authoredAt": "2026-09-21T09:10:39.000-06:00",
+      "url": "https://github.com/Jtoosh/exercise-app/commit/06632fb2560e6fdc3ca0c75f20fb3e23dff7b953"
+    },
+    {
+      "sha": "964ba036d5bd329fba092dc9d2f71bfc552d0eb9",
+      "repository": "Jtoosh/exercise-app",
+      "message": "fix: guard production migrations against local database fallback",
+      "authoredAt": "2026-09-20T22:19:04.000-06:00",
+      "url": "https://github.com/Jtoosh/exercise-app/commit/964ba036d5bd329fba092dc9d2f71bfc552d0eb9"
+    }
+  ]
+}

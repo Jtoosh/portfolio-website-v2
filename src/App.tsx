@@ -1,3 +1,4 @@
+import { Activity } from "./Activity";
 import { portfolio, projects, type Project } from "./content";
 
 function ContactLinks() {
@@ -87,6 +88,7 @@ export function App() {
             {portfolio.currentWorkTodo && (
               <p className="todo">{portfolio.currentWorkTodo}</p>
             )}
+            <Activity />
           </section>
         </main>
         <footer className="site-footer">
