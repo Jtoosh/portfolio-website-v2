@@ -1,0 +1,13 @@
+## Agent skills
+
+### Issue tracker
+
+Before reading or publishing tickets, use the GitHub Issues configuration in `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Before applying triage roles, read their label mapping in `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Before exploring or changing this single-context project, follow the glossary and ADR rules in `docs/agents/domain.md`.
