@@ -41,12 +41,21 @@ assistance, and messages mentioning automated tests are eligible. Undisclosed
 automation using human credentials cannot reliably be recognized; extend rules
 when a specific signature is established rather than excluding broad words.
 
-The current slice renders the packaged snapshot without a runtime request.
-Browser cache and hourly background refresh follow in ticket #5 using this
-same adapter. Incomplete search responses and unsuccessful HTTP responses throw,
-so callers can retain their prior usable data and successful retrieval timestamp.
-The maintenance command uses a 15-second timeout and writes atomically after
-successful validation.
+The browser hydrates the packaged HTML consistently, then immediately prefers a
+valid local snapshot when its successful retrieval is newer than the package.
+The versioned local cache is optional: malformed or future-dated data and storage
+restrictions fall back to the package. On each visit, a snapshot older than one
+hour refreshes in the background through the same public adapter. Exactly one
+hour is still fresh. Existing results remain readable during the request.
+
+A valid successful response updates the visible feed and successful retrieval
+time, and is persisted if storage permits. Storage write failure does not prevent
+an in-memory update. Network errors, HTTP/rate-limit failures, invalid JSON or
+incomplete responses, and the 15-second timeout retain the previous records and
+timestamp. There is no automatic retry loop, browser credential, runtime server,
+or scheduled build dependency. GitHub indexing can lag, so this is recent
+activity rather than a real-time guarantee. The separate maintenance command
+also uses a 15-second timeout and writes atomically after successful validation.
 
 Website tests use controlled source responses and time, then inspect generated
 HTML in a browser. `PORTFOLIO_ACTIVITY_SNAPSHOT=/absolute/path/to/snapshot.json`

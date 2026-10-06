@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./website-test";
 
 test("genuine cached activity is readable beside Current work in the initial HTML", async ({
   browser,

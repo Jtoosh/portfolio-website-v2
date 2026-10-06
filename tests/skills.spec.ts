@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./website-test";
 
 test("selecting a Skill tag reveals matching Additional projects on the same page", async ({
   page,

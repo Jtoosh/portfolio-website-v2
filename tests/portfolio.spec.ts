@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./website-test";
 
 test("the initial HTML introduces James and offers the approved reading content without JavaScript", async ({
   browser,
