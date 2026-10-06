@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { portfolio, projects, type Project } from "./content";
 
 function ContactLinks() {
@@ -34,6 +35,17 @@ export function ProjectCard({ project }: { project: Project }) {
 }
 
 export function App() {
+  const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
+  const skills = [...new Set(projects.flatMap((project) => project.tags))];
+  const matchingProjects = projects
+    .filter((project) =>
+      selectedSkills.length
+        ? project.tags.some((tag) => selectedSkills.includes(tag))
+        : project.featured,
+    )
+    .sort(
+      (a, b) => Number(b.featured) - Number(a.featured) || a.order - b.order,
+    );
   return (
     <>
       <a className="skip-link" href="#main">
@@ -60,22 +72,52 @@ export function App() {
               <p className="todo">{portfolio.introductionTodo}</p>
             )}
           </section>
-          {/* Skill discovery belongs here, before the project results. */}
+          <section className="skills-section" aria-labelledby="skills-heading">
+            <h2 id="skills-heading">Skills</h2>
+            <p>Click a skill to see what I've done with it.</p>
+            <div className="skill-badges">
+              {skills.map((skill) => (
+                <button
+                  key={skill}
+                  type="button"
+                  aria-pressed={selectedSkills.includes(skill)}
+                  onClick={() =>
+                    setSelectedSkills((selected) =>
+                      selected.includes(skill)
+                        ? selected.filter((tag) => tag !== skill)
+                        : [...selected, skill],
+                    )
+                  }
+                >
+                  {skill}
+                </button>
+              ))}
+              <button
+                type="button"
+                className="clear-skills"
+                disabled={!selectedSkills.length}
+                onClick={() => setSelectedSkills([])}
+              >
+                Clear skills
+              </button>
+            </div>
+          </section>
           <section
             className="projects-section"
             aria-labelledby="projects-heading"
           >
             <div className="section-heading">
-              <h2 id="projects-heading">Featured projects</h2>
+              <h2 id="projects-heading">
+                {selectedSkills.length
+                  ? "Matching projects"
+                  : "Featured projects"}
+              </h2>
               <span>A few things I've built</span>
             </div>
             <div className="project-list">
-              {projects
-                .filter((project) => project.featured)
-                .sort((a, b) => a.order - b.order)
-                .map((project) => (
-                  <ProjectCard project={project} key={project.id} />
-                ))}
+              {matchingProjects.map((project) => (
+                <ProjectCard project={project} key={project.id} />
+              ))}
             </div>
           </section>
           <section

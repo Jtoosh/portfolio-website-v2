@@ -61,4 +61,37 @@ export const projects: Project[] = [
     education: true,
     order: 3,
   },
+  {
+    id: "network-chess",
+    name: "Network Chess",
+    summary:
+      "A networked Java chess application developed through coursework, with SQL persistence and WebSocket game updates. My notes trace lessons from testing, serialization, shared state, and debugging multiplayer behavior.",
+    repository: "https://github.com/Jtoosh/byu-cs240",
+    tags: ["Java", "SQL", "WebSockets"],
+    featured: false,
+    education: true,
+    order: 4,
+  },
+  {
+    id: "study-platform",
+    name: "Study Platform",
+    summary:
+      "A course-built study platform that followed a progression from HTML to React, an Express backend, MongoDB, and WebSockets.",
+    repository: "https://github.com/Jtoosh/byu-cs260",
+    tags: ["React", "Node.js", "MongoDB", "WebSockets"],
+    featured: false,
+    education: true,
+    order: 5,
+  },
+  {
+    id: "jwt-pizza",
+    name: "JWT Pizza",
+    summary:
+      "A course application used to practice deployment and operations, including automated delivery through AWS, Docker, and monitoring. I also explored cron-based traffic generation to support the monitoring exercises.",
+    repository: "https://github.com/Jtoosh/jwt-pizza",
+    tags: ["AWS", "Docker", "CI/CD"],
+    featured: false,
+    education: true,
+    order: 6,
+  },
 ];
