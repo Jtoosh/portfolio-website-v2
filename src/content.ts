@@ -13,11 +13,8 @@ export const portfolio = {
   name: "James Teuscher",
   role: "Software engineer & computer science student",
   introduction:
-    "I'm James, a software engineer and computer science student. I'm naturally curious, and I learn by building—across web, backend, native apps, and infrastructure. I care about steadily improving my craft and making useful things.",
-  introductionTodo: "TODO: Replace this introduction with my own writing.",
-  currentWork: "",
-  currentWorkTodo:
-    "TODO: Describe the motivation and vision behind what I'm working on now.",
+    "I'm James, a software engineer and computer science student. I'm curious, and I learn by building this that interest me or that I feel have potential for good. I care about steadily improving my craft and making useful things.",
+  currentWork: "I'm currently working converting an exercise app personal project into an open source project with contributors",
   contacts: {
     email: "mailto:james.teuscher@outlook.com",
     resume:
