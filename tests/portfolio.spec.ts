@@ -17,12 +17,6 @@ test("the initial HTML introduces James and offers the approved reading content 
     ),
   ).toBeVisible();
   await expect(
-    page.getByText(
-      "TODO: Describe the motivation and vision behind what I'm working on now.",
-      { exact: true },
-    ),
-  ).toBeVisible();
-  await expect(
     page
       .getByRole("region", { name: "Featured projects" })
       .getByRole("heading", { level: 3 }),
