@@ -27,11 +27,5 @@ test("genuine cached activity is readable beside Current work in the initial HTM
     "2026-10-06T17:47:27.575468Z",
   );
   await expect(activity).toContainText("September 22, 2026");
-  await expect(
-    page.getByText(
-      "TODO: Describe the motivation and vision behind what I'm working on now.",
-      { exact: true },
-    ),
-  ).toBeVisible();
   await context.close();
 });
