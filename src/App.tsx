@@ -69,9 +69,6 @@ export function App() {
             <h1 id="intro-heading">{portfolio.name}</h1>
             <p className="role">{portfolio.role}</p>
             <p className="intro-copy">{portfolio.introduction}</p>
-            {portfolio.introductionTodo && (
-              <p className="todo">{portfolio.introductionTodo}</p>
-            )}
           </section>
           <section className="skills-section" aria-labelledby="skills-heading">
             <h2 id="skills-heading">Skills</h2>
@@ -127,9 +124,6 @@ export function App() {
           >
             <h2 id="current-work-heading">Current work</h2>
             {portfolio.currentWork && <p>{portfolio.currentWork}</p>}
-            {portfolio.currentWorkTodo && (
-              <p className="todo">{portfolio.currentWorkTodo}</p>
-            )}
             <Activity />
           </section>
         </main>
