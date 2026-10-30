@@ -12,7 +12,7 @@ npm run preview
 
 `npm run dev` provides Vite's development server. The production preview includes the build-generated reading content.
 
-Edit `src/content.ts` to maintain personal copy, TODOs, project summaries, skill tags, origin, ordering, and contact destinations. Project identity, featured status, and Education origin are independent. Contact destinations were retained from the historical portfolio configuration at commit `86504ad6dfdc9c94ecd63414f69ea8b07dd24f47`.
+Edit `src/content.ts` to maintain personal copy, TODOs, project summaries, visibility, skill tags, origin, ordering, and contact destinations. The project list includes every visible repository, with room for three complete cards and scrolling for the rest. Featured projects lead the list; Education origin is independent. The explicit `skillTags` catalog controls the broad filters. See [Adjusting projects and skill tags](docs/projects.md) for a short maintenance guide. Contact destinations were retained from the historical portfolio configuration at commit `86504ad6dfdc9c94ecd63414f69ea8b07dd24f47`.
 
 Tests observe production HTML and browser behavior:
 

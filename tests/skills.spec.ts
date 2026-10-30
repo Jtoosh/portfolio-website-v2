@@ -1,6 +1,6 @@
 import { expect, test } from "./website-test";
 
-test("selecting a Skill tag reveals matching Additional projects on the same page", async ({
+test("selecting a Skill tag filters matching Featured and Additional projects on the same page", async ({
   page,
 }) => {
   await page.goto("/");
@@ -10,13 +10,16 @@ test("selecting a Skill tag reveals matching Additional projects on the same pag
       exact: true,
     }),
   ).toBeVisible();
-  const sql = skills.getByRole("button", { name: "SQL", exact: true });
-  await expect(sql).toHaveAttribute("aria-pressed", "false");
-  await sql.click();
-  await expect(sql).toHaveAttribute("aria-pressed", "true");
+  const databases = skills.getByRole("button", {
+    name: "Databases",
+    exact: true,
+  });
+  await expect(databases).toHaveAttribute("aria-pressed", "false");
+  await databases.click();
+  await expect(databases).toHaveAttribute("aria-pressed", "true");
   await expect(
     page.getByRole("article").getByRole("heading", { level: 3 }),
-  ).toHaveText(["Exercise App", "Network Chess"]);
+  ).toHaveText(["Exercise App", "Tweeter", "Network Chess", "Study Platform"]);
   const chess = page
     .getByRole("article")
     .filter({ has: page.getByRole("heading", { name: "Network Chess" }) });
@@ -36,46 +39,69 @@ test("independent selections use any-match filtering without duplicates and can 
 }) => {
   await page.goto("/");
   const skills = page.getByRole("region", { name: "Skills", exact: true });
-  const sql = skills.getByRole("button", { name: "SQL", exact: true });
-  const swift = skills.getByRole("button", { name: "Swift", exact: true });
-  const typescript = skills.getByRole("button", {
-    name: "TypeScript",
+  const databases = skills.getByRole("button", {
+    name: "Databases",
     exact: true,
   });
-  await sql.click();
-  await swift.click();
-  await typescript.click();
-  await expect(sql).toHaveAttribute("aria-pressed", "true");
-  await expect(swift).toHaveAttribute("aria-pressed", "true");
-  await expect(typescript).toHaveAttribute("aria-pressed", "true");
+  const native = skills.getByRole("button", {
+    name: "Native apps",
+    exact: true,
+  });
+  const backend = skills.getByRole("button", {
+    name: "Backend",
+    exact: true,
+  });
+  await databases.click();
+  await native.click();
+  await backend.click();
+  await expect(databases).toHaveAttribute("aria-pressed", "true");
+  await expect(native).toHaveAttribute("aria-pressed", "true");
+  await expect(backend).toHaveAttribute("aria-pressed", "true");
   await expect(
     page.getByRole("article").getByRole("heading", { level: 3 }),
-  ).toHaveText(["Exercise App", "Note of the Day", "Tweeter", "Network Chess"]);
-  await swift.click();
-  await expect(swift).toHaveAttribute("aria-pressed", "false");
+  ).toHaveText([
+    "Exercise App",
+    "Note of the Day",
+    "Tweeter",
+    "Network Chess",
+    "Study Platform",
+  ]);
+  await native.click();
+  await expect(native).toHaveAttribute("aria-pressed", "false");
   await expect(
     page.getByRole("article").getByRole("heading", { level: 3 }),
-  ).toHaveText(["Exercise App", "Tweeter", "Network Chess"]);
-  await sql.click();
+  ).toHaveText(["Exercise App", "Tweeter", "Network Chess", "Study Platform"]);
+  await databases.click();
   await expect(
     page.getByRole("article").getByRole("heading", { level: 3 }),
-  ).toHaveText(["Exercise App", "Tweeter"]);
-  await typescript.click();
+  ).toHaveText(["Exercise App", "Tweeter", "Network Chess", "Study Platform"]);
+  await backend.click();
   await expect(
     page.getByRole("article").getByRole("heading", { level: 3 }),
-  ).toHaveText(["Exercise App", "Note of the Day", "Tweeter"]);
+  ).toHaveText([
+    "Exercise App",
+    "Note of the Day",
+    "Tweeter",
+    "Network Chess",
+    "Study Platform",
+    "JWT Pizza",
+  ]);
   await expect(
-    page.getByRole("heading", { name: "Featured projects", exact: true }),
+    page.getByRole("heading", { name: "Projects", exact: true }),
   ).toBeVisible();
 });
 
-test("web and operations skills reveal reviewed Additional projects after matching Featured projects", async ({
+test("web and operations skills include reviewed Additional projects after matching Featured projects", async ({
   page,
 }) => {
   await page.goto("/");
   const skills = page.getByRole("region", { name: "Skills", exact: true });
-  await skills.getByRole("button", { name: "AWS", exact: true }).click();
-  await skills.getByRole("button", { name: "React", exact: true }).click();
+  await skills
+    .getByRole("button", { name: "Cloud & DevOps", exact: true })
+    .click();
+  await skills
+    .getByRole("button", { name: "Web development", exact: true })
+    .click();
   await expect(
     page.getByRole("article").getByRole("heading", { level: 3 }),
   ).toHaveText(["Exercise App", "Tweeter", "Study Platform", "JWT Pizza"]);
@@ -126,44 +152,52 @@ test("keyboard visitors can toggle Skill tags and clear selections without reloa
     if (frame === page.mainFrame()) navigations.push(frame.url());
   });
   const skills = page.getByRole("region", { name: "Skills", exact: true });
-  const react = skills.getByRole("button", { name: "React", exact: true });
+  const web = skills.getByRole("button", {
+    name: "Web development",
+    exact: true,
+  });
   const clear = skills.getByRole("button", {
     name: "Clear skills",
     exact: true,
   });
   await expect(clear).toBeDisabled();
-  await react.focus();
+  await web.focus();
   expect(
-    await react.evaluate((element) => getComputedStyle(element).outlineStyle),
+    await web.evaluate((element) => getComputedStyle(element).outlineStyle),
   ).not.toBe("none");
-  const unselectedBackground = await react.evaluate(
+  const unselectedBackground = await web.evaluate(
     (element) => getComputedStyle(element).backgroundColor,
   );
   await page.keyboard.press("Space");
-  await expect(react).toHaveAttribute("aria-pressed", "true");
+  await expect(web).toHaveAttribute("aria-pressed", "true");
   expect(
-    await react.evaluate(
-      (element) => getComputedStyle(element).backgroundColor,
-    ),
+    await web.evaluate((element) => getComputedStyle(element).backgroundColor),
   ).not.toBe(unselectedBackground);
   await page.keyboard.press("Tab");
-  const typescript = skills.getByRole("button", {
-    name: "TypeScript",
+  const backend = skills.getByRole("button", {
+    name: "Backend",
     exact: true,
   });
-  await expect(typescript).toBeFocused();
+  await expect(backend).toBeFocused();
   await page.keyboard.press("Enter");
-  await expect(typescript).toHaveAttribute("aria-pressed", "true");
+  await expect(backend).toHaveAttribute("aria-pressed", "true");
   await expect(
     page.getByRole("article").getByRole("heading", { level: 3 }),
-  ).toHaveText(["Exercise App", "Tweeter", "Study Platform"]);
+  ).toHaveText(["Exercise App", "Tweeter", "Network Chess", "Study Platform"]);
   await clear.focus();
   await page.keyboard.press("Enter");
   await expect(
     page.getByRole("article").getByRole("heading", { level: 3 }),
-  ).toHaveText(["Exercise App", "Note of the Day", "Tweeter"]);
-  await expect(react).toHaveAttribute("aria-pressed", "false");
-  await expect(typescript).toHaveAttribute("aria-pressed", "false");
+  ).toHaveText([
+    "Exercise App",
+    "Note of the Day",
+    "Tweeter",
+    "Network Chess",
+    "Study Platform",
+    "JWT Pizza",
+  ]);
+  await expect(web).toHaveAttribute("aria-pressed", "false");
+  await expect(backend).toHaveAttribute("aria-pressed", "false");
   await expect(clear).toBeDisabled();
   expect(
     await page.evaluate(

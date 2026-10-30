@@ -1,5 +1,11 @@
 # Personal portfolio update
 
+> Project discovery was updated in [#10](https://github.com/Jtoosh/portfolio-website-v2/issues/10).
+> All visible projects now appear in a scrollable list with room for three cards;
+> clearing filters restores that full collection. Five editable broad Skill tags
+> replace the original technology badges. See [the current maintenance guide](projects.md).
+> The three-project default and filter-only Additional project discovery below describe the original scope.
+
 ## Problem Statement
 
 James needs a small, personal portfolio that helps a potential coworker or manager understand his ability to learn quickly, natural curiosity, desire to build, and continued investment in his craft. The website should present him as a broadly capable software engineer with experience and learning across full-stack web, backend, native/mobile applications, and some infrastructure.

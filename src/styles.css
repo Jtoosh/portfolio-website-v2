@@ -48,7 +48,8 @@ a:hover {
   text-decoration-thickness: 2px;
 }
 a:focus-visible,
-button:focus-visible {
+button:focus-visible,
+.project-list:focus-visible {
   outline: 3px solid var(--accent);
   outline-offset: 5px;
   border-radius: 2px;
@@ -160,7 +161,17 @@ h3 {
   font-size: 13px;
 }
 .project-list {
+  max-height: 50rem;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+  scrollbar-color: var(--muted) var(--background);
   border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.project-list-hint {
+  margin-bottom: 16px;
+  color: var(--muted);
+  font-size: 13px;
 }
 .project {
   display: grid;

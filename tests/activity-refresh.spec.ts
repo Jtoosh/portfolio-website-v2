@@ -113,7 +113,7 @@ test("a successful cache survives visits, suppresses refresh through exactly one
     await expect(activity(page).getByRole("link")).toHaveText([
       "Community contribution",
     ]);
-    await page.getByRole("button", { name: "SQL", exact: true }).click();
+    await page.getByRole("button", { name: "Databases", exact: true }).click();
     await expect(
       page.getByRole("heading", { name: "Network Chess", exact: true }),
     ).toBeVisible();
@@ -168,7 +168,7 @@ test("a bounded timeout retains the previous results and freshness even when a l
   await expect.poll(() => requested).toBe(true);
   await page.clock.fastForward(15_001);
   release();
-  await page.getByRole("button", { name: "SQL", exact: true }).click();
+  await page.getByRole("button", { name: "Databases", exact: true }).click();
   await expect(
     page.getByRole("heading", { name: "Network Chess", exact: true }),
   ).toBeVisible();
@@ -238,7 +238,7 @@ for (const failure of [
     });
     await page.reload();
     await done;
-    await page.getByRole("button", { name: "SQL", exact: true }).click();
+    await page.getByRole("button", { name: "Databases", exact: true }).click();
     await expect(
       page.getByRole("heading", { name: "Network Chess", exact: true }),
     ).toBeVisible();
@@ -292,7 +292,7 @@ for (const blocked of ["read", "write", "both"] as const) {
       "datetime",
       now,
     );
-    await page.getByRole("button", { name: "SQL", exact: true }).click();
+    await page.getByRole("button", { name: "Databases", exact: true }).click();
     await expect(
       page.getByRole("heading", { name: "Network Chess", exact: true }),
     ).toBeVisible();
@@ -369,7 +369,7 @@ for (const age of [3_599_999, 3_600_000]) {
       return route.fulfill({ json: response });
     });
     await page.goto("/");
-    await page.getByRole("button", { name: "SQL", exact: true }).click();
+    await page.getByRole("button", { name: "Databases", exact: true }).click();
     await expect(
       page.getByRole("heading", { name: "Network Chess", exact: true }),
     ).toBeVisible();
