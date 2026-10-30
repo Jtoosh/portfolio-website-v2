@@ -18,10 +18,20 @@ test("the initial HTML introduces James and offers the approved reading content 
   ).toBeVisible();
   await expect(
     page
-      .getByRole("region", { name: "Featured projects" })
+      .getByRole("region", { name: "Project list", exact: true })
       .getByRole("heading", { level: 3 }),
-  ).toHaveText(["Exercise App", "Note of the Day", "Tweeter"]);
-  await expect(page.getByText("Education", { exact: true })).toBeVisible();
+  ).toHaveText([
+    "Exercise App",
+    "Note of the Day",
+    "Tweeter",
+    "Network Chess",
+    "Study Platform",
+    "JWT Pizza",
+  ]);
+  await expect(page.getByText("Education", { exact: true })).toHaveCount(4);
+  const pizza = page.getByRole("link", { name: "View JWT Pizza repository" });
+  await pizza.focus();
+  await expect(pizza).toBeInViewport();
   await context.close();
 });
 
@@ -35,7 +45,7 @@ test("featured projects preserve approved summaries, attribution, and repository
   });
   await page.goto("/");
   const articles = page.getByRole("article");
-  await expect(articles).toHaveCount(3);
+  await expect(articles).toHaveCount(6);
   await expect(articles.nth(0)).toContainText(
     "A workout planner built around my own gym routine, with workout generation, exercise logging, a rest timer, and saved workout history. I've used feedback from real workouts to refine the app and its scope.",
   );

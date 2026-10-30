@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Activity } from "./Activity";
-import { portfolio, projects, type Project } from "./content";
+import { portfolio, projects, skillTags, type SkillTag } from "./content";
+import { ProjectList } from "./ProjectList";
 
 function ContactLinks() {
   return (
@@ -15,34 +16,17 @@ function ContactLinks() {
   );
 }
 
-export function ProjectCard({ project }: { project: Project }) {
-  return (
-    <article className="project">
-      <div className="project-heading">
-        <h3>{project.name}</h3>
-        {project.education && <span className="education">Education</span>}
-      </div>
-      <p>{project.summary}</p>
-      <ul className="project-tags" aria-label={`${project.name} skills`}>
-        {project.tags.map((tag) => (
-          <li key={tag}>{tag}</li>
-        ))}
-      </ul>
-      <a className="repository-link" href={project.repository}>
-        View {project.name} repository <span aria-hidden="true">↗</span>
-      </a>
-    </article>
-  );
-}
-
 export function App() {
-  const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
-  const skills = [...new Set(projects.flatMap((project) => project.tags))];
-  const matchingProjects = projects
+  const [selectedSkills, setSelectedSkills] = useState<SkillTag[]>([]);
+  const visibleProjects = projects.filter((project) => project.visible);
+  const skills = skillTags.filter((tag) =>
+    visibleProjects.some((project) => project.tags.includes(tag)),
+  );
+  const matchingProjects = visibleProjects
     .filter((project) =>
       selectedSkills.length
         ? project.tags.some((tag) => selectedSkills.includes(tag))
-        : project.featured,
+        : true,
     )
     .sort(
       (a, b) => Number(b.featured) - Number(a.featured) || a.order - b.order,
@@ -106,17 +90,17 @@ export function App() {
           >
             <div className="section-heading">
               <h2 id="projects-heading">
-                {selectedSkills.length
-                  ? "Matching projects"
-                  : "Featured projects"}
+                {selectedSkills.length ? "Matching projects" : "Projects"}
               </h2>
-              <span>A few things I've built</span>
+              <span role="status">
+                {matchingProjects.length}{" "}
+                {matchingProjects.length === 1 ? "project" : "projects"}
+              </span>
             </div>
-            <div className="project-list">
-              {matchingProjects.map((project) => (
-                <ProjectCard project={project} key={project.id} />
-              ))}
-            </div>
+            <p className="project-list-hint" id="project-list-hint">
+              Personal projects and coursework. Scroll to explore the list.
+            </p>
+            <ProjectList projects={matchingProjects} />
           </section>
           <section
             className="current-work"

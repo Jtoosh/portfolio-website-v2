@@ -1,9 +1,21 @@
+// Edit this catalog to change the available Skill tags and their display order.
+export const skillTags = [
+  "Web development",
+  "Backend",
+  "Databases",
+  "Cloud & DevOps",
+  "Native apps",
+] as const;
+
+export type SkillTag = (typeof skillTags)[number];
+
 export interface Project {
   id: string;
   name: string;
   summary: string;
   repository: string;
-  tags: string[];
+  tags: SkillTag[];
+  visible: boolean;
   featured: boolean;
   education: boolean;
   order: number;
@@ -25,6 +37,8 @@ export const portfolio = {
   },
 };
 
+// Set visible to false to hide a repository; featured projects lead the list.
+// Lower order values appear first within each featured/additional group.
 export const projects: Project[] = [
   {
     id: "exercise-app",
@@ -32,7 +46,8 @@ export const projects: Project[] = [
     summary:
       "A workout planner built around my own gym routine, with workout generation, exercise logging, a rest timer, and saved workout history. I've used feedback from real workouts to refine the app and its scope.",
     repository: "https://github.com/Jtoosh/exercise-app",
-    tags: ["React", "TypeScript", "Bun", "SQL", "PostgreSQL"],
+    tags: ["Web development", "Backend", "Databases"],
+    visible: true,
     featured: true,
     education: false,
     order: 1,
@@ -43,7 +58,8 @@ export const projects: Project[] = [
     summary:
       "An experiment in bringing small learning snippets into everyday life, including a native macOS widget scaffold. Built with extensive Codex assistance; my work involved prompting, reviewing, and testing the result.",
     repository: "https://github.com/Jtoosh/note-of-the-day",
-    tags: ["Swift", "SwiftUI", "WidgetKit"],
+    tags: ["Native apps"],
+    visible: true,
     featured: true,
     education: false,
     order: 2,
@@ -54,7 +70,8 @@ export const projects: Project[] = [
     summary:
       "A course-built social application with an AWS backend. My work included backend endpoints, asynchronous feed updates, infrastructure configuration, and debugging request handling.",
     repository: "https://github.com/Jtoosh/byu-cs340",
-    tags: ["TypeScript", "AWS", "Terraform", "DynamoDB", "SQS"],
+    tags: ["Backend", "Databases", "Cloud & DevOps"],
+    visible: true,
     featured: true,
     education: true,
     order: 3,
@@ -65,7 +82,8 @@ export const projects: Project[] = [
     summary:
       "A networked Java chess application developed through coursework, with SQL persistence and WebSocket game updates. My notes trace lessons from testing, serialization, shared state, and debugging multiplayer behavior.",
     repository: "https://github.com/Jtoosh/byu-cs240",
-    tags: ["Java", "SQL", "WebSockets"],
+    tags: ["Backend", "Databases"],
+    visible: true,
     featured: false,
     education: true,
     order: 4,
@@ -76,7 +94,8 @@ export const projects: Project[] = [
     summary:
       "A course-built study platform that followed a progression from HTML to React, an Express backend, MongoDB, and WebSockets.",
     repository: "https://github.com/Jtoosh/byu-cs260",
-    tags: ["React", "Node.js", "MongoDB", "WebSockets"],
+    tags: ["Web development", "Backend", "Databases"],
+    visible: true,
     featured: false,
     education: true,
     order: 5,
@@ -87,7 +106,8 @@ export const projects: Project[] = [
     summary:
       "A course application used to practice deployment and operations, including automated delivery through AWS, Docker, and monitoring. I also explored cron-based traffic generation to support the monitoring exercises.",
     repository: "https://github.com/Jtoosh/jwt-pizza",
-    tags: ["AWS", "Docker", "CI/CD"],
+    tags: ["Cloud & DevOps"],
+    visible: true,
     featured: false,
     education: true,
     order: 6,
