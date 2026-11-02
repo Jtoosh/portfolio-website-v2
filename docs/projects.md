@@ -44,7 +44,8 @@ The same labels appear on project cards.
 
 Run `npm run build`, `npm test`, and `npm run format:check`.
 Run `npm run dev` to check your chosen projects and filters in a browser.
-Rebuild and publish through the existing GitHub Pages workflow to update the live site.
+Push or merge changes to `main` to validate, build, and publish through the GitHub Pages workflow automatically.
+You can also run the workflow manually from Actions.
 
 Tracking: [scrollable repositories (#10)](https://github.com/Jtoosh/portfolio-website-v2/issues/10)
 and [editable skill tags (#11)](https://github.com/Jtoosh/portfolio-website-v2/issues/11).

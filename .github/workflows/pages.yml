@@ -1,7 +1,9 @@
-name: Publish portfolio to GitHub Pages (manual)
+name: Publish portfolio to GitHub Pages
 
-# Dispatch only after explicit approval to publish the selected revision.
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -42,6 +44,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Publish approved artifact
+      - name: Publish artifact
         id: deployment
         uses: actions/deploy-pages@v4
