@@ -122,8 +122,13 @@ test("skills with no shared projects show zero results and recover when a requir
   await cloud.click();
   await web.click();
   const list = page.getByRole("region", { name: "Project list", exact: true });
+  const noMatches = page.getByText(
+    "No projects match this combination of skills.",
+    { exact: true },
+  );
   await expect(list.getByRole("article")).toHaveCount(0);
   await expect(page.getByRole("status")).toHaveText("0 projects");
+  await expect(noMatches).toBeVisible();
   await expect(
     page.getByRole("heading", { name: "Matching projects", exact: true }),
   ).toBeVisible();
@@ -131,6 +136,7 @@ test("skills with no shared projects show zero results and recover when a requir
   await expect(web).toHaveAttribute("aria-pressed", "true");
   await expect(clear).toBeEnabled();
   await web.click();
+  await expect(noMatches).toHaveCount(0);
   await expect(cloud).toHaveAttribute("aria-pressed", "true");
   await expect(web).toHaveAttribute("aria-pressed", "false");
   await expect(list.getByRole("heading", { level: 3 })).toHaveText([
@@ -163,7 +169,9 @@ test("skills with no shared projects show zero results and recover when a requir
   await web.click();
   await expect(list.getByRole("article")).toHaveCount(0);
   await expect(page.getByRole("status")).toHaveText("0 projects");
+  await expect(noMatches).toBeVisible();
   await clear.click();
+  await expect(noMatches).toHaveCount(0);
   await expect(list.getByRole("heading", { level: 3 })).toHaveText([
     "Exercise App",
     "Note of the Day",

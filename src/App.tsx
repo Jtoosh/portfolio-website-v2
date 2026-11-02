@@ -96,7 +96,9 @@ export function App() {
               </span>
             </div>
             <p className="project-list-hint" id="project-list-hint">
-              Personal projects and coursework. Scroll to explore the list.
+              {matchingProjects.length
+                ? "Personal projects and coursework. Scroll to explore the list."
+                : "No projects match this combination of skills."}
             </p>
             <ProjectList projects={matchingProjects} />
           </section>
