@@ -1,5 +1,7 @@
 # Personal portfolio update
 
+> Language tags were added in [#16](https://github.com/Jtoosh/portfolio-website-v2/issues/16). Skills and languages have separate filter groups; projects must match every selected tag across both groups. Both catalogs and project assignments are editable in `src/content.ts`. See [the maintenance guide](projects.md).
+>
 > Project discovery was updated in [#10](https://github.com/Jtoosh/portfolio-website-v2/issues/10).
 > All visible projects now appear in a scrollable list with room for three cards;
 > clearing filters restores that full collection. Five editable broad Skill tags

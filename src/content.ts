@@ -9,12 +9,24 @@ export const skillTags = [
 
 export type SkillTag = (typeof skillTags)[number];
 
+// Add languages here, then assign them to projects below. Order controls filters.
+export const languageTags = [
+  "TypeScript",
+  "JavaScript",
+  "Python",
+  "Swift",
+  "Java",
+] as const;
+
+export type LanguageTag = (typeof languageTags)[number];
+
 export interface Project {
   id: string;
   name: string;
   summary: string;
   repository: string;
   tags: SkillTag[];
+  languages: LanguageTag[];
   visible: boolean;
   featured: boolean;
   education: boolean;
@@ -47,6 +59,7 @@ export const projects: Project[] = [
       "A workout planner built around my own gym routine, with workout generation, exercise logging, a rest timer, and saved workout history. I've used feedback from real workouts to refine the app and its scope.",
     repository: "https://github.com/Jtoosh/exercise-app",
     tags: ["Web development", "Backend", "Databases"],
+    languages: ["TypeScript"],
     visible: true,
     featured: true,
     education: false,
@@ -59,6 +72,7 @@ export const projects: Project[] = [
       "An experiment in bringing small learning snippets into everyday life, including a native macOS widget scaffold. Built with extensive Codex assistance; my work involved prompting, reviewing, and testing the result.",
     repository: "https://github.com/Jtoosh/note-of-the-day",
     tags: ["Native apps"],
+    languages: ["Python", "Swift", "TypeScript"],
     visible: true,
     featured: true,
     education: false,
@@ -71,6 +85,7 @@ export const projects: Project[] = [
       "A course-built social application with an AWS backend. My work included backend endpoints, asynchronous feed updates, infrastructure configuration, and debugging request handling.",
     repository: "https://github.com/Jtoosh/byu-cs340",
     tags: ["Backend", "Databases", "Cloud & DevOps"],
+    languages: ["TypeScript"],
     visible: true,
     featured: true,
     education: true,
@@ -83,6 +98,7 @@ export const projects: Project[] = [
       "A networked Java chess application developed through coursework, with SQL persistence and WebSocket game updates. My notes trace lessons from testing, serialization, shared state, and debugging multiplayer behavior.",
     repository: "https://github.com/Jtoosh/byu-cs240",
     tags: ["Backend", "Databases"],
+    languages: ["Java"],
     visible: true,
     featured: false,
     education: true,
@@ -95,6 +111,7 @@ export const projects: Project[] = [
       "A course-built study platform that followed a progression from HTML to React, an Express backend, MongoDB, and WebSockets.",
     repository: "https://github.com/Jtoosh/byu-cs260",
     tags: ["Web development", "Backend", "Databases"],
+    languages: ["JavaScript"],
     visible: true,
     featured: false,
     education: true,
@@ -107,6 +124,7 @@ export const projects: Project[] = [
       "A course application used to practice deployment and operations, including automated delivery through AWS, Docker, and monitoring. I also explored cron-based traffic generation to support the monitoring exercises.",
     repository: "https://github.com/Jtoosh/jwt-pizza",
     tags: ["Cloud & DevOps"],
+    languages: ["TypeScript"],
     visible: true,
     featured: false,
     education: true,
