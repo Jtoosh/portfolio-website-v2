@@ -9,7 +9,8 @@ You can change the collection without editing React components or CSS.
 - It has room for three complete cards; scroll to see the remaining projects.
 - The list adjusts to screen width and summary length, and supports keyboard scrolling.
 - Five broad skill tags replace the individual language and framework tags.
-- Select several skills to include projects matching any of them.
+- Select several skills to include only projects demonstrating every selected skill.
+- Combinations with no shared projects show 0 projects; remove a skill or clear selections to explore again.
 - Clearing skills restores the full list. Changing filters returns to the start.
 - Education labels, project summaries, and repository links are preserved.
 - Every selected project is available in the generated HTML without JavaScript.
@@ -47,3 +48,5 @@ Rebuild and publish through the existing GitHub Pages workflow to update the liv
 
 Tracking: [scrollable repositories (#10)](https://github.com/Jtoosh/portfolio-website-v2/issues/10)
 and [editable skill tags (#11)](https://github.com/Jtoosh/portfolio-website-v2/issues/11).
+Intersection filtering: [#15](https://github.com/Jtoosh/portfolio-website-v2/issues/15),
+with [implementation spec #19](https://github.com/Jtoosh/portfolio-website-v2/issues/19).

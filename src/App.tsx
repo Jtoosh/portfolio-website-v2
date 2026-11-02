@@ -24,9 +24,7 @@ export function App() {
   );
   const matchingProjects = visibleProjects
     .filter((project) =>
-      selectedSkills.length
-        ? project.tags.some((tag) => selectedSkills.includes(tag))
-        : true,
+      selectedSkills.every((skill) => project.tags.includes(skill)),
     )
     .sort(
       (a, b) => Number(b.featured) - Number(a.featured) || a.order - b.order,

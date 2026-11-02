@@ -108,7 +108,8 @@ test("pointer scrolling reveals additional coursework and changing filters retur
     .poll(() => list.evaluate((element) => element.scrollTop))
     .toBe(0);
   await page.getByRole("button", { name: "Native apps", exact: true }).click();
-  await expect(page.getByRole("status")).toHaveText("5 projects");
+  await expect(page.getByRole("status")).toHaveText("0 projects");
+  await expect(list.getByRole("article")).toHaveCount(0);
   await page.getByRole("button", { name: "Databases", exact: true }).click();
   await expect(list.getByRole("heading", { level: 3 })).toHaveText([
     "Note of the Day",

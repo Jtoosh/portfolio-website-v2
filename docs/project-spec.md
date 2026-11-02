@@ -6,6 +6,12 @@
 > replace the original technology badges. See [the current maintenance guide](projects.md).
 > The three-project default and filter-only Additional project discovery below describe the original scope.
 
+> Skill filtering is superseded by [#15](https://github.com/Jtoosh/portfolio-website-v2/issues/15)
+> and [spec #19](https://github.com/Jtoosh/portfolio-website-v2/issues/19): projects must
+> demonstrate every selected Skill tag (intersection). With no selections, all visible
+> projects appear; combinations with no matches show 0 projects. The any-match/OR
+> language below records the original scope.
+
 ## Problem Statement
 
 James needs a small, personal portfolio that helps a potential coworker or manager understand his ability to learn quickly, natural curiosity, desire to build, and continued investment in his craft. The website should present him as a broadly capable software engineer with experience and learning across full-stack web, backend, native/mobile applications, and some infrastructure.
