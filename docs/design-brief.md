@@ -1,5 +1,11 @@
 # Portfolio design brief
 
+> The filtering direction in this brief is superseded by
+> [#15](https://github.com/Jtoosh/portfolio-website-v2/issues/15) and
+> [spec #19](https://github.com/Jtoosh/portfolio-website-v2/issues/19): projects must
+> demonstrate every selected Skill tag (intersection). With no selections, all visible
+> projects appear. See [the current maintenance guide](projects.md).
+
 This brief records decisions from the portfolio design interview. James confirmed the documents accurately reflect his intent. The approved direction and completion details are consolidated in [the project spec](./project-spec.md); implementation has not started.
 
 ## Settled direction
