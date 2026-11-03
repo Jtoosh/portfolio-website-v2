@@ -1,7 +1,21 @@
 import { useState } from "react";
 import { Activity } from "./Activity";
-import { portfolio, projects, skillTags, type SkillTag } from "./content";
+import {
+  languageTags,
+  portfolio,
+  projects,
+  skillTags,
+  type LanguageTag,
+  type SkillTag,
+} from "./content";
 import { ProjectList } from "./ProjectList";
+import { TagFilter } from "./TagFilter";
+
+function toggleTag<Tag extends string>(selected: Tag[], tag: Tag) {
+  return selected.includes(tag)
+    ? selected.filter((value) => value !== tag)
+    : [...selected, tag];
+}
 
 function ContactLinks() {
   return (
@@ -18,13 +32,21 @@ function ContactLinks() {
 
 export function App() {
   const [selectedSkills, setSelectedSkills] = useState<SkillTag[]>([]);
+  const [selectedLanguages, setSelectedLanguages] = useState<LanguageTag[]>([]);
   const visibleProjects = projects.filter((project) => project.visible);
   const skills = skillTags.filter((tag) =>
     visibleProjects.some((project) => project.tags.includes(tag)),
   );
+  const languages = languageTags.filter((tag) =>
+    visibleProjects.some((project) => project.languages.includes(tag)),
+  );
   const matchingProjects = visibleProjects
-    .filter((project) =>
-      selectedSkills.every((skill) => project.tags.includes(skill)),
+    .filter(
+      (project) =>
+        selectedSkills.every((skill) => project.tags.includes(skill)) &&
+        selectedLanguages.every((language) =>
+          project.languages.includes(language),
+        ),
     )
     .sort(
       (a, b) => Number(b.featured) - Number(a.featured) || a.order - b.order,
@@ -52,43 +74,35 @@ export function App() {
             <p className="role">{portfolio.role}</p>
             <p className="intro-copy">{portfolio.introduction}</p>
           </section>
-          <section className="skills-section" aria-labelledby="skills-heading">
-            <h2 id="skills-heading">Skills</h2>
-            <p>Click a skill to see what I've done with it.</p>
-            <div className="skill-badges">
-              {skills.map((skill) => (
-                <button
-                  key={skill}
-                  type="button"
-                  aria-pressed={selectedSkills.includes(skill)}
-                  onClick={() =>
-                    setSelectedSkills((selected) =>
-                      selected.includes(skill)
-                        ? selected.filter((tag) => tag !== skill)
-                        : [...selected, skill],
-                    )
-                  }
-                >
-                  {skill}
-                </button>
-              ))}
-              <button
-                type="button"
-                className="clear-skills"
-                disabled={!selectedSkills.length}
-                onClick={() => setSelectedSkills([])}
-              >
-                Clear skills
-              </button>
-            </div>
-          </section>
+          <TagFilter
+            title="Skills"
+            description="Click a skill to see what I've done with it."
+            tags={skills}
+            selected={selectedSkills}
+            onToggle={(skill) =>
+              setSelectedSkills((selected) => toggleTag(selected, skill))
+            }
+            onClear={() => setSelectedSkills([])}
+          />
+          <TagFilter
+            title="Languages"
+            description="Projects must match every selected skill and language."
+            tags={languages}
+            selected={selectedLanguages}
+            onToggle={(language) =>
+              setSelectedLanguages((selected) => toggleTag(selected, language))
+            }
+            onClear={() => setSelectedLanguages([])}
+          />
           <section
             className="projects-section"
             aria-labelledby="projects-heading"
           >
             <div className="section-heading">
               <h2 id="projects-heading">
-                {selectedSkills.length ? "Matching projects" : "Projects"}
+                {selectedSkills.length || selectedLanguages.length
+                  ? "Matching projects"
+                  : "Projects"}
               </h2>
               <span role="status">
                 {matchingProjects.length}{" "}
@@ -98,7 +112,7 @@ export function App() {
             <p className="project-list-hint" id="project-list-hint">
               {matchingProjects.length
                 ? "Personal projects and coursework. Scroll to explore the list."
-                : "No projects match this combination of skills."}
+                : "No projects match this combination of skills and languages."}
             </p>
             <ProjectList projects={matchingProjects} />
           </section>

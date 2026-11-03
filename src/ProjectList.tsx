@@ -40,11 +40,23 @@ export function ProjectList({ projects }: { projects: Project[] }) {
             {project.education && <span className="education">Education</span>}
           </div>
           <p>{project.summary}</p>
-          <ul className="project-tags" aria-label={`${project.name} skills`}>
-            {project.tags.map((tag) => (
-              <li key={tag}>{tag}</li>
-            ))}
-          </ul>
+          <div className="project-tag-groups">
+            <ul className="project-tags" aria-label={`${project.name} skills`}>
+              {project.tags.map((tag) => (
+                <li key={tag}>{tag}</li>
+              ))}
+            </ul>
+            {project.languages.length > 0 && (
+              <ul
+                className="project-tags project-languages"
+                aria-label={`${project.name} languages`}
+              >
+                {project.languages.map((language) => (
+                  <li key={language}>{language}</li>
+                ))}
+              </ul>
+            )}
+          </div>
           <a className="repository-link" href={project.repository}>
             View {project.name} repository <span aria-hidden="true">↗</span>
           </a>

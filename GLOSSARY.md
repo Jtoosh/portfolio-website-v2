@@ -22,5 +22,8 @@ A label identifying a project that originated as coursework. It applies equally 
 **Skill tag**:
 A broad area of practice associating a curated project with skills it demonstrates. Readers may select several badges to explore projects demonstrating every selected area.
 
+**Language tag**:
+A curated programming language used substantively in a project's linked repository. Readers may combine language and skill tags to explore projects matching every selected tag.
+
 **Current work**:
 A short, personally written account of the motivation and vision behind what James is building or exploring now.

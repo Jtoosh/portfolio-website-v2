@@ -123,7 +123,7 @@ test("skills with no shared projects show zero results and recover when a requir
   await web.click();
   const list = page.getByRole("region", { name: "Project list", exact: true });
   const noMatches = page.getByText(
-    "No projects match this combination of skills.",
+    "No projects match this combination of skills and languages.",
     { exact: true },
   );
   await expect(list.getByRole("article")).toHaveCount(0);
