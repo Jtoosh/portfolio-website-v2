@@ -44,11 +44,17 @@ export function TagFilter<Tag extends string>({
   const ownTrigger = useRef<HTMLButtonElement>(null);
   const trigger = triggerRef ?? ownTrigger;
   const panel = useRef<HTMLDivElement>(null);
-  const [open, setOpen] = useState(false);
+  // Omit explicit ARIA state in prerendered HTML so the native invoker's
+  // expanded state remains accurate before React hydrates (or without JS).
+  const [open, setOpen] = useState<boolean | undefined>(undefined);
   const position = () => {
     if (trigger.current && panel.current)
       positionPanel(trigger.current, panel.current);
   };
+
+  useEffect(() => {
+    setOpen(panel.current?.matches(":popover-open") ?? false);
+  }, []);
 
   useEffect(() => {
     if (!open) return;

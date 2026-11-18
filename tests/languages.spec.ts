@@ -26,6 +26,25 @@ test("language filters and curated card badges are present in production HTML wi
       "Java",
       "Clear languages",
     ]);
+    // Read the browser's accessibility tree; DOM-based ARIA snapshots do
+    // not include the popover invoker's implicit expanded state.
+    const accessibility = await context.newCDPSession(page);
+    await expect
+      .poll(async () => {
+        const { nodes } = await accessibility.send(
+          "Accessibility.getFullAXTree",
+        );
+        const button = nodes.find(
+          (node) =>
+            node.role?.value === "button" &&
+            node.name?.value === "Filter by languages",
+        );
+        return button?.properties?.find(
+          (property) => property.name === "expanded",
+        )?.value.value;
+      })
+      .toBe(true);
+    await accessibility.detach();
     const assignments = [
       { name: "Exercise App", languages: ["TypeScript"] },
       { name: "Note of the Day", languages: ["Python", "Swift", "TypeScript"] },
