@@ -14,6 +14,8 @@ npm run preview
 
 Edit `src/content.ts` to maintain personal copy, TODOs, project summaries, visibility, skill and language tags, origin, ordering, and contact destinations. The project list includes every visible repository, with room for three complete cards and scrolling for the rest. Featured projects lead the list; Education origin is independent. The explicit `skillTags` and `languageTags` catalogs control the filters; projects must match every selected tag. See [Adjusting projects, skill tags, and language tags](docs/projects.md) for a short maintenance guide. Contact destinations were retained from the historical portfolio configuration at commit `86504ad6dfdc9c94ecd63414f69ea8b07dd24f47`.
 
+Skills and Languages use compact animated dropdowns. Select multiple tags, remove selected tags below the controls, or use Reset to clear both groups. Keyboard users can open a group with Enter, Space, or an arrow key, move among options with arrows/Home/End, toggle with Enter/Space, and close with Escape. The UI follows system theme and reduced-motion settings. See the [layout decision and prototype archive](docs/investigations/tag-filters.md).
+
 Tests observe production HTML and browser behavior:
 
 ```sh

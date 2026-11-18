@@ -1,5 +1,7 @@
 # Personal portfolio update
 
+> Filter presentation now follows layout E from [#17](https://github.com/Jtoosh/portfolio-website-v2/issues/17), selected by James and authorized for implementation on 2026-11-11: separate animated Skills and Languages dropdowns, persistent removable selections, and a shared Reset control. Every-selected-tag matching is unchanged. See [the design decision](investigations/tag-filters.md).
+
 > Language tags were added in [#16](https://github.com/Jtoosh/portfolio-website-v2/issues/16). Skills and languages have separate filter groups; projects must match every selected tag across both groups. Both catalogs and project assignments are editable in `src/content.ts`. See [the maintenance guide](projects.md).
 >
 > Project discovery was updated in [#10](https://github.com/Jtoosh/portfolio-website-v2/issues/10).

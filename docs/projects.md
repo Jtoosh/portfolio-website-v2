@@ -8,10 +8,10 @@ You can change the collection without editing React components or CSS.
 - The project list includes all six selected repositories, including coursework.
 - It has room for three complete cards; scroll to see the remaining projects.
 - The list adjusts to screen width and summary length, and supports keyboard scrolling.
-- Broad skill tags and curated language tags have separate filter groups and card labels.
+- Broad skill tags and curated language tags have separate animated dropdowns and card labels. Open Skills or Languages to choose tags; several can remain selected.
 - Select several tags to include only projects matching every selected skill and language. For example, TypeScript + Python shows Note of the Day; adding Backend shows no matches.
 - Combinations with no shared projects show 0 projects and a short explanatory message; remove a tag or clear selections to explore again.
-- Clear skills and Clear languages each reset only their own group. Clearing both restores the full list. Changing filters returns to the start.
+- Clear skills and Clear languages inside each dropdown reset only their own group. Selected tags remain visible below the controls and can be removed individually; Reset clears both groups. Changing filters returns the project list to the start.
 - Education labels, project summaries, and repository links are preserved.
 - Every selected project is available in the generated HTML without JavaScript.
 

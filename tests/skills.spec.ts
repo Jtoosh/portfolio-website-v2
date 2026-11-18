@@ -1,12 +1,14 @@
 import { expect, test } from "./website-test";
+import { openFilter } from "./filter-controls";
 
 test("selecting a Skill tag filters matching Featured and Additional projects on the same page", async ({
   page,
 }) => {
   await page.goto("/");
+  await openFilter(page, "Skills");
   const skills = page.getByRole("region", { name: "Skills", exact: true });
   await expect(
-    skills.getByText("Click a skill to see what I've done with it.", {
+    page.getByText("Projects must match every selected skill and language.", {
       exact: true,
     }),
   ).toBeVisible();
@@ -38,6 +40,7 @@ test("projects match every selected Skill tag without duplicates and selections 
   page,
 }) => {
   await page.goto("/");
+  await openFilter(page, "Skills");
   const skills = page.getByRole("region", { name: "Skills", exact: true });
   const databases = skills.getByRole("button", {
     name: "Databases",
@@ -106,6 +109,7 @@ test("skills with no shared projects show zero results and recover when a requir
   page,
 }) => {
   await page.goto("/");
+  await openFilter(page, "Skills");
   const skills = page.getByRole("region", { name: "Skills", exact: true });
   const cloud = skills.getByRole("button", {
     name: "Cloud & DevOps",
@@ -197,6 +201,10 @@ test("keyboard visitors can toggle Skill tags and clear selections without reloa
   });
   await page.setViewportSize({ width: 375, height: 812 });
   await page.goto("/");
+  await page
+    .getByRole("button", { name: "Filter by skills", exact: true })
+    .focus();
+  await page.keyboard.press("ArrowDown");
   const navigations: string[] = [];
   page.on("framenavigated", (frame) => {
     if (frame === page.mainFrame()) navigations.push(frame.url());
@@ -220,9 +228,11 @@ test("keyboard visitors can toggle Skill tags and clear selections without reloa
   );
   await page.keyboard.press("Space");
   await expect(web).toHaveAttribute("aria-pressed", "true");
-  expect(
-    await web.evaluate((element) => getComputedStyle(element).backgroundColor),
-  ).not.toBe(unselectedBackground);
+  await expect
+    .poll(() =>
+      web.evaluate((element) => getComputedStyle(element).backgroundColor),
+    )
+    .not.toBe(unselectedBackground);
   await page.keyboard.press("Tab");
   const backend = skills.getByRole("button", {
     name: "Backend",
