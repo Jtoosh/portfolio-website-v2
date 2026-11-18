@@ -1,4 +1,5 @@
 import { expect, test } from "./website-test";
+import { openFilter } from "./filter-controls";
 
 test("language filters and curated card badges are present in production HTML without JavaScript", async ({
   browser,
@@ -8,11 +9,16 @@ test("language filters and curated card badges are present in production HTML wi
   try {
     const page = await context.newPage();
     await page.goto(baseURL!);
+    await openFilter(page, "Languages");
     const languages = page.getByRole("region", {
       name: "Languages",
       exact: true,
     });
-    await expect(languages.getByRole("button")).toHaveText([
+    await expect(
+      languages
+        .getByRole("group", { name: "Languages options" })
+        .getByRole("button"),
+    ).toHaveText([
       "TypeScript",
       "JavaScript",
       "Python",
@@ -50,6 +56,7 @@ test("each language filters the curated projects and clearing restores their ord
   page,
 }) => {
   await page.goto("/");
+  await openFilter(page, "Languages");
   const languages = page.getByRole("region", {
     name: "Languages",
     exact: true,
@@ -99,6 +106,7 @@ test("every selected language is required and removing a requirement recovers fr
   page,
 }) => {
   await page.goto("/");
+  await openFilter(page, "Languages");
   const languages = page.getByRole("region", {
     name: "Languages",
     exact: true,
@@ -146,40 +154,36 @@ test("skills and languages intersect and each clear control preserves the other 
   page,
 }) => {
   await page.goto("/");
-  const skills = page.getByRole("region", { name: "Skills", exact: true });
-  const languages = page.getByRole("region", {
-    name: "Languages",
-    exact: true,
-  });
-  const backend = skills.getByRole("button", { name: "Backend", exact: true });
-  const typescript = languages.getByRole("button", {
-    name: "TypeScript",
-    exact: true,
-  });
-  const python = languages.getByRole("button", { name: "Python", exact: true });
-  const clearSkills = skills.getByRole("button", { name: "Clear skills" });
-  const clearLanguages = languages.getByRole("button", {
-    name: "Clear languages",
-  });
   const headings = page.getByRole("article").getByRole("heading", { level: 3 });
-  await backend.click();
-  await typescript.click();
+  const skills = await openFilter(page, "Skills");
+  await skills.getByRole("button", { name: "Backend", exact: true }).click();
+  const languages = await openFilter(page, "Languages");
+  await languages
+    .getByRole("button", { name: "TypeScript", exact: true })
+    .click();
   await expect(headings).toHaveText(["Exercise App", "Tweeter"]);
-  await clearLanguages.click();
-  await expect(backend).toHaveAttribute("aria-pressed", "true");
+  await languages.getByRole("button", { name: "Clear languages" }).click();
+  await expect(
+    page.getByRole("button", { name: "Remove skill: Backend", exact: true }),
+  ).toBeVisible();
   await expect(headings).toHaveText([
     "Exercise App",
     "Tweeter",
     "Network Chess",
     "Study Platform",
   ]);
-  await python.click();
+  await languages.getByRole("button", { name: "Python", exact: true }).click();
   await expect(headings).toHaveCount(0);
+  await openFilter(page, "Skills");
+  const clearSkills = skills.getByRole("button", { name: "Clear skills" });
   await clearSkills.click();
-  await expect(python).toHaveAttribute("aria-pressed", "true");
+  await expect(
+    page.getByRole("button", { name: "Remove language: Python", exact: true }),
+  ).toBeVisible();
   await expect(clearSkills).toBeDisabled();
   await expect(headings).toHaveText(["Note of the Day"]);
-  await clearLanguages.click();
+  await openFilter(page, "Languages");
+  await languages.getByRole("button", { name: "Clear languages" }).click();
   await expect(headings).toHaveCount(6);
   await expect(page.getByRole("status")).toHaveText("6 projects");
 });
@@ -194,6 +198,10 @@ test("language controls support keyboard use on narrow screens without navigatio
   });
   await page.setViewportSize({ width: 375, height: 812 });
   await page.goto("/");
+  await page
+    .getByRole("button", { name: "Filter by languages", exact: true })
+    .focus();
+  await page.keyboard.press("ArrowDown");
   const navigations: string[] = [];
   page.on("framenavigated", (frame) => {
     if (frame === page.mainFrame()) navigations.push(frame.url());
@@ -213,11 +221,11 @@ test("language controls support keyboard use on narrow screens without navigatio
   );
   await page.keyboard.press("Space");
   await expect(swift).toHaveAttribute("aria-pressed", "true");
-  expect(
-    await swift.evaluate(
-      (element) => getComputedStyle(element).backgroundColor,
-    ),
-  ).not.toBe(background);
+  await expect
+    .poll(() =>
+      swift.evaluate((element) => getComputedStyle(element).backgroundColor),
+    )
+    .not.toBe(background);
   await expect(
     page.getByRole("article").getByRole("heading", { level: 3 }),
   ).toHaveText(["Note of the Day"]);

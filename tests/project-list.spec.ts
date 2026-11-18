@@ -1,12 +1,14 @@
 import { expect, test } from "./website-test";
+import { openFilter } from "./filter-controls";
 
 test("all selected repositories are available by default with five general Skill tags", async ({
   page,
 }) => {
   await page.goto("/");
+  await openFilter(page, "Skills");
   await expect(
     page
-      .getByRole("region", { name: "Skills", exact: true })
+      .getByRole("group", { name: "Skills options", exact: true })
       .getByRole("button"),
   ).toHaveText([
     "Web development",
@@ -102,6 +104,7 @@ test("pointer scrolling reveals additional coursework and changing filters retur
   await expect
     .poll(() => list.evaluate((element) => element.scrollTop))
     .toBeGreaterThan(0);
+  await openFilter(page, "Skills");
   await page.getByRole("button", { name: "Databases", exact: true }).click();
   await expect(page.getByRole("status")).toHaveText("4 projects");
   await expect

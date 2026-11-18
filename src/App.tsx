@@ -9,7 +9,7 @@ import {
   type SkillTag,
 } from "./content";
 import { ProjectList } from "./ProjectList";
-import { TagFilter } from "./TagFilter";
+import { ProjectFilters } from "./ProjectFilters";
 
 function toggleTag<Tag extends string>(selected: Tag[], tag: Tag) {
   return selected.includes(tag)
@@ -74,25 +74,25 @@ export function App() {
             <p className="role">{portfolio.role}</p>
             <p className="intro-copy">{portfolio.introduction}</p>
           </section>
-          <TagFilter
-            title="Skills"
-            description="Click a skill to see what I've done with it."
-            tags={skills}
-            selected={selectedSkills}
-            onToggle={(skill) =>
-              setSelectedSkills((selected) => toggleTag(selected, skill))
-            }
-            onClear={() => setSelectedSkills([])}
-          />
-          <TagFilter
-            title="Languages"
-            description="Projects must match every selected skill and language."
-            tags={languages}
-            selected={selectedLanguages}
-            onToggle={(language) =>
-              setSelectedLanguages((selected) => toggleTag(selected, language))
-            }
-            onClear={() => setSelectedLanguages([])}
+          <ProjectFilters
+            skills={{
+              title: "Skills",
+              tags: skills,
+              selected: selectedSkills,
+              onToggle: (skill) =>
+                setSelectedSkills((selected) => toggleTag(selected, skill)),
+              onClear: () => setSelectedSkills([]),
+            }}
+            languages={{
+              title: "Languages",
+              tags: languages,
+              selected: selectedLanguages,
+              onToggle: (language) =>
+                setSelectedLanguages((selected) =>
+                  toggleTag(selected, language),
+                ),
+              onClear: () => setSelectedLanguages([]),
+            }}
           />
           <section
             className="projects-section"
