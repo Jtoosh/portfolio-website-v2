@@ -158,6 +158,14 @@ export function TagFilter<Tag extends string>({
           const index = options.findIndex(
             (option) => option === document.activeElement,
           );
+          // Handle reverse Tab before blur so clicking the trigger can still
+          // use its native popover toggle without closing and reopening it.
+          if (event.key === "Tab" && event.shiftKey && index === 0) {
+            event.preventDefault();
+            panel.current?.hidePopover();
+            trigger.current?.focus();
+            return;
+          }
           let next: number;
           if (event.key === "ArrowDown") next = (index + 1) % options.length;
           else if (event.key === "ArrowUp")

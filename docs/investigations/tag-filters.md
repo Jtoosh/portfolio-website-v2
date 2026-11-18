@@ -24,4 +24,4 @@ To run it later, use a checkout of that branch and `npm run prototype:tags`. The
 
 ## Implementation validation
 
-The production build (including TypeScript), formatting, and all 50 Playwright browser tests passed. Existing filtering, activity, static HTML and delivery checks remain covered; new checks exercise dropdown keyboard navigation, one open group, focus restoration after chip removal, viewport placement, reduced motion, and theme inheritance. An additional Chromium animation check confirmed both entry transitions and a visible exit before the panel becomes hidden.
+The production build (including TypeScript), formatting, and all 51 Playwright browser tests passed. Existing filtering, activity, static HTML and delivery checks remain covered; new checks exercise dropdown keyboard navigation, one open group, focus restoration after chip removal, viewport placement, reduced motion, and theme inheritance. An additional Chromium animation check confirmed both entry transitions and a visible exit before the panel becomes hidden.

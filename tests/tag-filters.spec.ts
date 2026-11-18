@@ -169,3 +169,34 @@ test("filters honor reduced motion, inherit dark mode, and ship without prototyp
     ),
   ).not.toBe(darkBackground);
 });
+
+test("reverse Tab dismisses the panel while clicking its trigger still closes it", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const trigger = page.getByRole("button", {
+    name: "Filter by skills",
+    exact: true,
+  });
+  const options = page.getByRole("group", {
+    name: "Skills options",
+    exact: true,
+  });
+  await trigger.focus();
+  await page.keyboard.press("ArrowDown");
+  await expect(
+    options.getByRole("button", { name: "Web development", exact: true }),
+  ).toBeFocused();
+  await page.keyboard.press("Shift+Tab");
+  await expect(trigger).toBeFocused();
+  await expect(trigger).toHaveAttribute("aria-expanded", "false");
+  await page.keyboard.press("Shift+Tab");
+  await expect(trigger).not.toBeFocused();
+  await expect(trigger).toHaveAttribute("aria-expanded", "false");
+
+  await trigger.focus();
+  await page.keyboard.press("ArrowDown");
+  await expect(trigger).toHaveAttribute("aria-expanded", "true");
+  await trigger.click();
+  await expect(trigger).toHaveAttribute("aria-expanded", "false");
+});
