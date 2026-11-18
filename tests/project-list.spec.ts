@@ -77,9 +77,16 @@ test("keyboard visitors can scroll to coursework and tab through every repositor
     await list.evaluate((element) => getComputedStyle(element).outlineStyle),
   ).not.toBe("none");
   await page.keyboard.press("End");
+  // Let End finish scrolling before Home interrupts the native animation.
   await expect
-    .poll(() => list.evaluate((element) => element.scrollTop))
-    .toBeGreaterThan(0);
+    .poll(() =>
+      list.evaluate((element) =>
+        Math.abs(
+          element.scrollHeight - element.clientHeight - element.scrollTop,
+        ),
+      ),
+    )
+    .toBeLessThanOrEqual(1);
   const pizza = list.getByRole("link", { name: "View JWT Pizza repository" });
   await expect(pizza).toBeInViewport();
   await page.keyboard.press("Home");

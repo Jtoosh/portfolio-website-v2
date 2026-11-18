@@ -211,7 +211,18 @@ export function TagFilter<Tag extends string>({
         </div>
         <div className="tag-filter-footer">
           <span>Select any combination</span>
-          <button type="button" disabled={!selected.length} onClick={onClear}>
+          <button
+            type="button"
+            disabled={!selected.length}
+            onClick={() => {
+              // Clear becomes disabled after this update. Keep focus on an
+              // enabled choice so the open panel stays usable by keyboard.
+              panel.current
+                ?.querySelector<HTMLButtonElement>("[aria-pressed]")
+                ?.focus();
+              onClear();
+            }}
+          >
             Clear {title.toLowerCase()}
           </button>
         </div>

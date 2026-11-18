@@ -200,3 +200,29 @@ test("reverse Tab dismisses the panel while clicking its trigger still closes it
   await trigger.click();
   await expect(trigger).toHaveAttribute("aria-expanded", "false");
 });
+
+test("clearing a group keeps focus on an enabled choice before disabling Clear", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const trigger = page.getByRole("button", {
+    name: "Filter by skills",
+    exact: true,
+  });
+  await trigger.focus();
+  await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("Space");
+  await page.keyboard.press("End");
+  await page.keyboard.press("Tab");
+  const clear = page.getByRole("button", { name: "Clear skills", exact: true });
+  await expect(clear).toBeFocused();
+  await page.keyboard.press("Enter");
+  await expect(clear).toBeDisabled();
+  await expect(
+    page.getByRole("button", { name: "Web development", exact: true }),
+  ).toBeFocused();
+  await expect(page.getByRole("status")).toHaveText("6 projects");
+  await page.keyboard.press("Shift+Tab");
+  await expect(trigger).toBeFocused();
+  await expect(trigger).toHaveAttribute("aria-expanded", "false");
+});
